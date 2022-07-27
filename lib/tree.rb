@@ -49,7 +49,7 @@ class Tree
     end
 
     def delete(value, node = @root)
-        ############################
+
         return node if node.nil?
 
         if value < node.value
@@ -68,42 +68,7 @@ class Tree
         end
 
         node
-
-
-
-        # return nil if node.left.nil? && node.right.nil?
-
-        # if node.left.nil?
-        #     temp = node.right
-        #     node = nil
-        #     temp
-        # elsif root.right.nil?
-        #     temp = node.left
-        #     node = nil
-        #     temp
-        # end
-
-        # successor_parent = node
-
-        # successor = node.right
-
-        # while !successor.left.nil?
-        #     successor_parent = successor
-        #     successor = successor.left
-        # end
-
-        # if  successor_parent != node
-        #     successor_parent.left = successor.right
-        # else
-        #     successor_parent.right = successor.right
-        # end
-
-        # node.value = successor.value
-
-        # node
-
-
-        ############################
+ 
     end
 
     def minValueNode(node)
@@ -138,6 +103,20 @@ class Tree
         #Should return an array of values if no block is given
         #You will want to use an array acting as a queue to keep track of all the
         # child nodes that you have yet to traverse and to add new ones to the list
+        return if root.nil?
+
+        queue = [@root]
+        result = []
+
+        while !q.empty?
+            node = queue.shift
+            block_given? ? yield(node) : result << node.value
+            queue << node.left unless node.left.nil?
+            queue << node.right unless node.right.nil?
+        end
+
+        result unless block_given?
+
     end
 
     def inorder
