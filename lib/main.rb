@@ -9,4 +9,4 @@ tree.insert(1)
 tree.insert(3)
 tree.insert(5)
 tree.pretty_print
-puts tree.depth(tree.find(14))
+puts tree.balanced?

@@ -188,6 +188,7 @@ class Tree
     end
 
     def balanced?
+        return (height(@root.right) - height(@root.left)).abs <= 1
         #checks if the tree is balanced.
         #diff of heights of left and right subtree ! > 1
     end
