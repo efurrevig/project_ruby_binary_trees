@@ -194,6 +194,7 @@ class Tree
     end
 
     def rebalance
+        @root = build_tree(inorder())
         #rebalances an unbalanced tree
     end
 
