@@ -96,19 +96,12 @@ class Tree
     end
 
     def level_order
-        #ACCEPTS A BLOCK.
-        #Traverses the tree in breadth-first level order and yield each node 
-        # to the provided block
-        #Can use iteration or recursion (try both?)
-        #Should return an array of values if no block is given
-        #You will want to use an array acting as a queue to keep track of all the
-        # child nodes that you have yet to traverse and to add new ones to the list
         return if root.nil?
 
         queue = [@root]
         result = []
 
-        while !q.empty?
+        while !queue.empty?
             node = queue.shift
             block_given? ? yield(node) : result << node.value
             queue << node.left unless node.left.nil?
@@ -119,22 +112,72 @@ class Tree
 
     end
 
-    def inorder
+    def inorder(node = @root, result = [])
+        #left root right
+        return if node.nil?
+
+        if !node.left.nil?
+            inorder(node.left, result)
+        end
+
+        block_given? ? yield(node) : result << node.value
+
+        if !node.right.nil?
+            inorder(node.right, result)
+        end
+
+        result
     end
 
-    def preorder
+    def preorder(result = [], node = @root)
+        return if node.nil?
+
+        block_given? ? yield(node) : result << node.value
+
+        if !node.left.nil?
+            preorder(result, node.left)
+        end
+
+        if !node.right.nil?
+            preorder(result, node.right)
+        end
+
+        result
+
+            
+        #root left right
     end
 
-    def postoder
+    def postorder(result = [], node = @root)
+        return if node.nil?
+
+        if !node.left.nil?
+            postorder(result, node.left)
+        end
+        if !node.right.nil?
+            postorder(result, node.right)
+        end
+
+        block_given? ? yield(node) : result << node.value
+    
+        #left right root
     end
 
-    def height
+    def height(node = @root)
+        return 0 if node.nil?
+
+        left_height = height(node.left)
+        right_height = height(node.right) 
+
+        return [left_height, right_height].max + 1
         #accepts a node and returns its height.
         #height is defined as the number of edges in longest path from a given node
         # to a leaf node
     end
 
-    def depth
+    def depth(node = @root, input)
+        return if node.nil?
+        
         #acceps a node and returns its depth.
         #depth is defined as the number of edges in a path from a given node to the 
         # tree's root node
