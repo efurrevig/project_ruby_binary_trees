@@ -175,9 +175,13 @@ class Tree
         # to a leaf node
     end
 
-    def depth(node = @root, input)
-        return if node.nil?
-        
+    def depth(node = @root, value)
+        return 0 if node == value || node.nil?
+
+            right_depth = depth(node.right, value)
+            left_depth = depth(node.left, value)
+
+        return [left_depth, right_depth].min + 1
         #acceps a node and returns its depth.
         #depth is defined as the number of edges in a path from a given node to the 
         # tree's root node
